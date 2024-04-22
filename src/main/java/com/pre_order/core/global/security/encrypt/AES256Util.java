@@ -34,7 +34,7 @@ public class AES256Util {
     public String encrypt(String str) {
         try {
             byte[] byteKey = key.getBytes();
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes("UTF-8"));
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             SecretKeySpec secretKeySpec = new SecretKeySpec(byteKey, "AES");
