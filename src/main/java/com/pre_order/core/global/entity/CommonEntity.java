@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
@@ -16,11 +16,11 @@ public class CommonEntity {
     private Long id;
 
     @CreationTimestamp
-    @Column(name = "created_at")
-    private Timestamp createdAt;
+    @Column(name = "created_at", columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    @Column(name = "updated_at", columnDefinition = "timestamp default current_timestamp on update current_timestamp")
+    private LocalDateTime updatedAt;
 
 }
