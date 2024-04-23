@@ -29,4 +29,12 @@ public class UsersCustomRepository {
                         .and(users.isActive.eq(true)))
                 .fetchOne();
     }
+
+    public void updateIsEmailVerified(String email) {
+        jpaQueryFactory
+                .update(users)
+                .set(users.isEmailVerified, true)
+                .where(users.email.eq(email))
+                .execute();
+    }
 }

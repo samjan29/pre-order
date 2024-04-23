@@ -1,6 +1,6 @@
 package com.pre_order.core.domain.users.controller;
 
-import com.pre_order.core.domain.users.dto.AuthCodeResponseDto;
+import com.pre_order.core.domain.users.dto.AuthCodeDto;
 import com.pre_order.core.domain.users.dto.UsersInfoRequestDto;
 import com.pre_order.core.domain.users.service.AuthService;
 import com.pre_order.core.domain.users.service.UsersService;
@@ -22,11 +22,11 @@ public class UsersController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthCodeResponseDto> signUp(@Valid @RequestBody UsersInfoRequestDto usersInfoRequestDto) {
+    public ResponseEntity<AuthCodeDto> signUp(@Valid @RequestBody UsersInfoRequestDto usersInfoRequestDto) {
         // TODO 두 서비스 메서드 트랜잭션 하나로 묶어서 처리하기
         usersService.signUp(usersInfoRequestDto);
-        final AuthCodeResponseDto authCodeResponseDto = authService.generateAuthCode(usersInfoRequestDto.getEmail());
-        authService.verifyEmail(usersInfoRequestDto.getEmail(), authCodeResponseDto.authCode());
-        return ResponseEntity.status(HttpStatus.CREATED).body(authCodeResponseDto);
+        final AuthCodeDto authCodeDto = authService.generateAuthCode(usersInfoRequestDto.getEmail());
+        authService.sendEmail(usersInfoRequestDto.getEmail(), authCodeDto.authCode());
+        return ResponseEntity.status(HttpStatus.CREATED).body(authCodeDto);
     }
 }

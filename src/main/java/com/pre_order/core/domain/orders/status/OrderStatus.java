@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum OrderStatus {
     CONFIRMED("배송 중"),
-    CANCELLED("주문 취소"),
+    CANCELED("주문 취소"),
     DELIVERED("배송 완료"),
     RETURNED("반품");
 

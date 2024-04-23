@@ -37,6 +37,14 @@ spring:
           starttls:
             enable: true
 
+# local에서만
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
+      hibernate: DEBUG
 
 aes256:
   secret:
