@@ -49,10 +49,10 @@ public class JWTProvider {
         JWTProvider.secretKey = secretKey;
     }
 
-    public String createAccessToken(String userId) {
+    public String createAccessToken(Long userId) {
         return JWT.create()
-                .withSubject(userId)
-                .withExpiresAt(new Date(System.currentTimeMillis()+ EXPIRATION_TIME))
+                .withSubject(String.valueOf(userId))
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
