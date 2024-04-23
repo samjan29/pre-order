@@ -7,6 +7,7 @@ import com.pre_order.core.domain.users.service.UsersService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = "/api/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class UsersController {
 
@@ -22,11 +23,13 @@ public class UsersController {
     private final AuthService authService;
 
     @PostMapping("/signup")
+    // TODO 반환 타입 빼기 왜??코드를 보내지??????
     public ResponseEntity<AuthCodeDto> signUp(@Valid @RequestBody UsersInfoRequestDto usersInfoRequestDto) {
+        final String email = usersInfoRequestDto.email();
         // TODO 두 서비스 메서드 트랜잭션 하나로 묶어서 처리하기
         usersService.signUp(usersInfoRequestDto);
-        final AuthCodeDto authCodeDto = authService.generateAuthCode(usersInfoRequestDto.getEmail());
-        authService.sendEmail(usersInfoRequestDto.getEmail(), authCodeDto.authCode());
+        final AuthCodeDto authCodeDto = authService.generateAuthCode(AuthService.PREFIX_VERIFIED, email);
+        authService.sendEmail(email, authCodeDto.authCode());
         return ResponseEntity.status(HttpStatus.CREATED).body(authCodeDto);
     }
 }

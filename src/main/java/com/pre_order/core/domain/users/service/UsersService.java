@@ -20,19 +20,21 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
 
     public void signUp(UsersInfoRequestDto usersInfoRequestDto) {
+        final String email = usersInfoRequestDto.email();
+        final String phoneNumber = usersInfoRequestDto.phoneNumber();
 
-        checkEmailDuplicate(usersInfoRequestDto.getEmail());
-        checkPhoneNumberDuplicate(usersInfoRequestDto.getPhoneNumber());
+        checkEmailDuplicate(email);
+        checkPhoneNumberDuplicate(phoneNumber);
 
         // TODO 카카오 API로 요청해서 zipCode 받아오기
 
         usersRepository.save(Users.builder()
-                .email(usersInfoRequestDto.getEmail())
-                .password(passwordEncoder.encode(usersInfoRequestDto.getPassword()))
-                .name(usersInfoRequestDto.getName())
-                .phoneNumber(usersInfoRequestDto.getPhoneNumber())
-                .address1(usersInfoRequestDto.getAddress1())
-                .address2(usersInfoRequestDto.getAddress2())
+                .email(email)
+                .password(passwordEncoder.encode(usersInfoRequestDto.password()))
+                .name(usersInfoRequestDto.name())
+                .phoneNumber(phoneNumber)
+                .address1(usersInfoRequestDto.address1())
+                .address2(usersInfoRequestDto.address2())
                 .build());
     }
 
