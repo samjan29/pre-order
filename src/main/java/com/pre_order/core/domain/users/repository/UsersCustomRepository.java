@@ -37,4 +37,14 @@ public class UsersCustomRepository {
                 .where(users.email.eq(email))
                 .execute();
     }
+
+    public void updateAddressAndPhoneNumber(Long id, String address1, String address2, String phoneNumber) {
+        jpaQueryFactory
+                .update(users)
+                .set(users.address1, address1)
+                .set(users.address2, address2)
+                .set(users.phoneNumber, phoneNumber)
+                .where(users.id.eq(id))
+                .execute();
+    }
 }
