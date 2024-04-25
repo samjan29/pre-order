@@ -47,4 +47,12 @@ public class UsersCustomRepository {
                 .where(users.id.eq(id))
                 .execute();
     }
+
+    public void updatePassword(Long id, String password) {
+        jpaQueryFactory
+                .update(users)
+                .set(users.password, password)
+                .where(users.id.eq(id))
+                .execute();
+    }
 }
