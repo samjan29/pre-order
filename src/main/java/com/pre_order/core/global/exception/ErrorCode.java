@@ -18,6 +18,7 @@ public enum ErrorCode {
     DUPLICATED_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "Duplicated Phone Number"),
 
     // Auth
+    FORBIDDEN(HttpStatus.FORBIDDEN, "Forbidden"),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
     EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED,"Expired Access Token"),
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "Expired Refresh Token"),
