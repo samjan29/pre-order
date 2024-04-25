@@ -66,4 +66,10 @@ public class UsersService {
 
         return userInfoDto;
     }
+
+    @Transactional
+    public void updatePassword(String password, CustomUser user) {
+        // TODO 같은 비밀번호인 경우 예외 처리
+        usersCustomRepository.updatePassword(user.id(), passwordEncoder.encode(password));
+    }
 }

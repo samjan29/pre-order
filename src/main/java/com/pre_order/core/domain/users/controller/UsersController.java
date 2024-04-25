@@ -1,6 +1,7 @@
 package com.pre_order.core.domain.users.controller;
 
 import com.pre_order.core.domain.users.dto.AuthCodeDto;
+import com.pre_order.core.domain.users.dto.PasswordRequestDto;
 import com.pre_order.core.domain.users.dto.UserInfoDto;
 import com.pre_order.core.domain.users.dto.UsersInfoRequestDto;
 import com.pre_order.core.domain.users.service.AuthService;
@@ -36,5 +37,11 @@ public class UsersController {
     @PatchMapping("/user-info")
     public ResponseEntity<UserInfoDto> updateUserInfo(@Valid @RequestBody UserInfoDto userInfoDto, @AuthenticationPrincipal CustomUser user) {
         return ResponseEntity.ok(usersService.updateUserInfo(userInfoDto, user));
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody PasswordRequestDto password, @AuthenticationPrincipal CustomUser user) {
+        usersService.updatePassword(password.password(), user);
+        return ResponseEntity.noContent().build();
     }
 }
