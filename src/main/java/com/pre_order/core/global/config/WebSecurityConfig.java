@@ -1,9 +1,8 @@
-package com.pre_order.core.global.security.config;
+package com.pre_order.core.global.config;
 
-import com.pre_order.core.domain.users.repository.UsersRepository;
 import com.pre_order.core.global.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.pre_order.core.global.security.filter.JWTAuthorizationFilter;
-import com.pre_order.core.global.security.jwt.JWTProvider;
+import com.pre_order.core.global.security.user.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
-    private final UsersRepository usersRepository;
-    private final JWTProvider jwtProvider;
 
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
@@ -49,6 +45,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/users/signup").permitAll()
                                 .requestMatchers("/api/auth/email-verified").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/users/user-info").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .anyRequest().authenticated()
                 )
                 .cors(AbstractHttpConfigurer::disable)

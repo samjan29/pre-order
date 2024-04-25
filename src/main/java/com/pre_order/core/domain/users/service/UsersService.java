@@ -1,14 +1,17 @@
 package com.pre_order.core.domain.users.service;
 
+import com.pre_order.core.domain.users.dto.UserInfoDto;
 import com.pre_order.core.domain.users.dto.UsersInfoRequestDto;
 import com.pre_order.core.domain.users.entity.Users;
 import com.pre_order.core.domain.users.repository.UsersCustomRepository;
 import com.pre_order.core.domain.users.repository.UsersRepository;
 import com.pre_order.core.global.exception.CustomException;
 import com.pre_order.core.global.exception.ErrorCode;
+import com.pre_order.core.global.security.user.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +53,17 @@ public class UsersService {
         if (countPhoneNumber > 0) {
             throw new CustomException(ErrorCode.DUPLICATED_PHONE_NUMBER);
         }
+    }
+
+    @Transactional
+    public UserInfoDto updateUserInfo(UserInfoDto userInfoDto, CustomUser user) {
+        // null인 데이터는 update를 하지 않고 처리하면 성능 향상이 되는가?
+        usersCustomRepository.updateAddressAndPhoneNumber(
+                user.id(),
+                userInfoDto.getAddress1(),
+                userInfoDto.getAddress2(),
+                userInfoDto.getPhoneNumber());
+
+        return userInfoDto;
     }
 }

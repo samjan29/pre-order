@@ -4,18 +4,23 @@ import com.pre_order.core.domain.users.entity.Users;
 import com.pre_order.core.domain.users.repository.UsersRepository;
 import com.pre_order.core.global.security.jwt.JWTProvider;
 import com.pre_order.core.global.security.user.CustomUser;
+import com.pre_order.core.global.security.user.role.UserRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Component
 @RequiredArgsConstructor
@@ -47,7 +52,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken.authenticated(
                         customUser,
                         null,
-                        null
+                        getAuthorities(users.getIsEmailVerified())
                 );
 
         // 스프링 시큐리티 내에 우리가 만든 authentication 객체를 저장할 context 생성
@@ -56,5 +61,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         context.setAuthentication(authentication);
         // 스프링 시큐리티에 context를 등록
         SecurityContextHolder.setContext(context);
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(boolean isVerified) {
+        String role = isVerified ? UserRole.VERIFIED_USER.getAuthority() : UserRole.UNVERIFIED_USER.getAuthority();
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role);
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(grantedAuthority);
+        return authorities;
     }
 }
