@@ -27,7 +27,6 @@ public class OrdersController {
     public ResponseEntity<Void> addToWishList(@Valid @RequestBody WishListRequestDto wishListRequestDto, @AuthenticationPrincipal Users user) {
         Products product = productsService.checkProduct(wishListRequestDto);
         ordersService.addToWishList(wishListRequestDto, user, product);
-        productsService.updateStock(wishListRequestDto, product);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
