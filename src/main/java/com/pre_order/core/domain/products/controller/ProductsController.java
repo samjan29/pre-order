@@ -4,10 +4,7 @@ import com.pre_order.core.domain.products.dto.ProductResponseDto;
 import com.pre_order.core.domain.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,11 @@ public class ProductsController {
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> getProductList(@RequestParam(name = "page") int page) {
         return ResponseEntity.ok(productsService.getProductList(page));
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable(name = "productId") Long productId) {
+        return ResponseEntity.ok(productsService.getProduct(productId));
     }
 
 }
