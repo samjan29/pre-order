@@ -3,7 +3,6 @@ package com.pre_order.core.global.security.filter;
 import com.pre_order.core.domain.users.entity.Users;
 import com.pre_order.core.domain.users.repository.UsersRepository;
 import com.pre_order.core.global.security.jwt.JWTProvider;
-import com.pre_order.core.global.security.user.CustomUser;
 import com.pre_order.core.global.security.user.role.UserRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -46,11 +45,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     // 강제로 로그인 처리하는 메소드
     private void forceAuthentication(Users users) {
-        CustomUser customUser = new CustomUser(users);
         // 스프링 시큐리티 객체에 저장할 authentication 객체를 생성
         UsernamePasswordAuthenticationToken authentication =
                 UsernamePasswordAuthenticationToken.authenticated(
-                        customUser,
+                        users,
                         null,
                         getAuthorities(users.getIsEmailVerified())
                 );

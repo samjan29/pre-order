@@ -9,7 +9,6 @@ import com.pre_order.core.global.exception.CustomException;
 import com.pre_order.core.global.exception.ErrorCode;
 import com.pre_order.core.global.security.encrypt.AES256Util;
 import com.pre_order.core.global.security.jwt.JWTProvider;
-import com.pre_order.core.global.security.user.CustomUser;
 import jakarta.mail.Message;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -98,7 +97,7 @@ public class AuthService {
         return responseHeaders;
     }
 
-    public void logout(CustomUser user) {
+    public void logout(Users user) {
         /*
         TODO 로그아웃 처리
         Refresh token 제거나 등등?
