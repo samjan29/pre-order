@@ -46,4 +46,8 @@ public class Products extends CommonEntity {
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;
+
+    public void updateStock(int stock) {
+        this.stock = stock;
+    }
 }
