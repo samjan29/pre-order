@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/products/**").permitAll()
                                 .requestMatchers("/api/users/user-info").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .requestMatchers("/api/users/password").hasRole(UserRole.VERIFIED_USER.getAuthority())
+                                .requestMatchers("/api/orders/**").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .anyRequest().authenticated()
                 )
                 .cors(AbstractHttpConfigurer::disable)

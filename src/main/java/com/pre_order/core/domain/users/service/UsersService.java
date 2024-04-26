@@ -7,7 +7,6 @@ import com.pre_order.core.domain.users.repository.UsersCustomRepository;
 import com.pre_order.core.domain.users.repository.UsersRepository;
 import com.pre_order.core.global.exception.CustomException;
 import com.pre_order.core.global.exception.ErrorCode;
-import com.pre_order.core.global.security.user.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,10 +55,10 @@ public class UsersService {
     }
 
     @Transactional
-    public UserInfoDto updateUserInfo(UserInfoDto userInfoDto, CustomUser user) {
+    public UserInfoDto updateUserInfo(UserInfoDto userInfoDto, Users user) {
         // null인 데이터는 update를 하지 않고 처리하면 성능 향상이 되는가?
         usersCustomRepository.updateAddressAndPhoneNumber(
-                user.id(),
+                user.getId(),
                 userInfoDto.getAddress1(),
                 userInfoDto.getAddress2(),
                 userInfoDto.getPhoneNumber());
@@ -68,8 +67,8 @@ public class UsersService {
     }
 
     @Transactional
-    public void updatePassword(String password, CustomUser user) {
+    public void updatePassword(String password, Users user) {
         // TODO 같은 비밀번호인 경우 예외 처리
-        usersCustomRepository.updatePassword(user.id(), passwordEncoder.encode(password));
+        usersCustomRepository.updatePassword(user.getId(), passwordEncoder.encode(password));
     }
 }

@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface ProductsRepository extends JpaRepository<Products, Long> {
     Page<ProductResponseDto> findAllByIsShow(Pageable pageable, Boolean isShow);
-    Optional<ProductResponseDto> findByIdAndIsShow(Long id, Boolean isShow);
+    Optional<Products> findByIdAndIsShow(Long id, Boolean isShow);
 }

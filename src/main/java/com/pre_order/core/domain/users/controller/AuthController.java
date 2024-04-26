@@ -2,8 +2,8 @@ package com.pre_order.core.domain.users.controller;
 
 import com.pre_order.core.domain.users.dto.AuthCodeDto;
 import com.pre_order.core.domain.users.dto.LoginRequestDto;
+import com.pre_order.core.domain.users.entity.Users;
 import com.pre_order.core.domain.users.service.AuthService;
-import com.pre_order.core.global.security.user.CustomUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -30,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<Void> logout(@AuthenticationPrincipal Users user) {
         authService.logout(user);
         return ResponseEntity.noContent().build();
     }
