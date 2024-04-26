@@ -14,4 +14,9 @@ public class ExceptionResponseDto {
         this.status = errorCode.getStatus().value();
         this.message = errorCode.getMessage();
     }
+
+    @Override
+    public String toString() {
+        return "{\"status\":" + status + ",\"message\":\"" + message + "\"}";
+    }
 }

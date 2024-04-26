@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/users/signup").permitAll()
                                 .requestMatchers("/api/auth/email-verified").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/products/**").permitAll()
                                 .requestMatchers("/api/users/user-info").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .requestMatchers("/api/users/password").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .anyRequest().authenticated()

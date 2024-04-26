@@ -4,14 +4,19 @@ import com.pre_order.core.domain.orders.entity.OrderItems;
 import com.pre_order.core.domain.orders.entity.WishList;
 import com.pre_order.core.global.entity.CommonEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.List;
 
 @Getter
+@Builder
 @Entity
 @Table(name = "products")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@DynamicInsert
 public class Products extends CommonEntity {
 
     @Column(name = "name", nullable = false)
@@ -31,7 +36,7 @@ public class Products extends CommonEntity {
 
     @Column(name = "is_show")
     @ColumnDefault("true")
-    private boolean isShow;
+    private Boolean isShow;
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<WishList> wishLists;
