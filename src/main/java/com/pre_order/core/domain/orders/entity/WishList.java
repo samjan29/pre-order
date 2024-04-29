@@ -2,6 +2,8 @@ package com.pre_order.core.domain.orders.entity;
 
 import com.pre_order.core.domain.products.entity.Products;
 import com.pre_order.core.domain.users.entity.Users;
+import com.pre_order.core.global.exception.CustomException;
+import com.pre_order.core.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -41,4 +43,11 @@ public class WishList {
     @Column(name = "is_deleted")
     @ColumnDefault("false")
     private Boolean isDeleted;
+
+    public void updateQuantity(int quantity) {
+        if (quantity < 1) {
+            throw new CustomException(ErrorCode.BAD_REQUEST);
+        }
+        this.quantity = quantity;
+    }
 }
