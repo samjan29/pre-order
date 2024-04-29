@@ -1,5 +1,6 @@
 package com.pre_order.core.domain.orders.controller;
 
+import com.pre_order.core.domain.orders.dto.QuantityDto;
 import com.pre_order.core.domain.orders.dto.WishListRequestDto;
 import com.pre_order.core.domain.orders.service.OrdersService;
 import com.pre_order.core.domain.products.entity.Products;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -28,6 +26,12 @@ public class OrdersController {
         Products product = productsService.checkProduct(wishListRequestDto);
         ordersService.addToWishList(wishListRequestDto, user, product);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
+    @PatchMapping("/wish-list/{wishListId}")
+    public ResponseEntity<QuantityDto> updateWishList(@PathVariable(name = "wishListId") Long wishListId, @Valid @RequestBody WishListRequestDto wishListRequestDto) {
+        return ResponseEntity.ok().body(ordersService.updateWishList(wishListId, wishListRequestDto));
     }
 
 }
