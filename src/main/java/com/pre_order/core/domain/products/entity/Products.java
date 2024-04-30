@@ -3,6 +3,8 @@ package com.pre_order.core.domain.products.entity;
 import com.pre_order.core.domain.orders.entity.OrderItems;
 import com.pre_order.core.domain.orders.entity.WishList;
 import com.pre_order.core.global.entity.CommonEntity;
+import com.pre_order.core.global.exception.CustomException;
+import com.pre_order.core.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -47,7 +49,10 @@ public class Products extends CommonEntity {
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;
 
-    public void updateStock(int stock) {
-        this.stock = stock;
+    public void updateStock(int quantity) {
+        if (this.stock - quantity < 0) {
+            throw new CustomException(ErrorCode.BAD_REQUEST);
+        }
+        this.stock -= quantity;
     }
 }

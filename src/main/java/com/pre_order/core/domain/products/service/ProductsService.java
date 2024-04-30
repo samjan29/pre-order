@@ -34,18 +34,14 @@ public class ProductsService {
         return new ProductResponseDto(product);
     }
 
-    public Products checkProduct(WishListRequestDto wishListRequestDto) {
-        Products product = productsRepository.findByIdAndIsShow(wishListRequestDto.productId(), true)
+    public Products checkProduct(Long productId) {
+        return productsRepository.findByIdAndIsShow(productId, true)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
-        if (product.getStock() < wishListRequestDto.quantity()) {
-//            throw new CustomException(ErrorCode.NOT_ENOUGH_STOCK);
-        }
-        return product;
     }
 
     @Transactional
-    public void updateStock(WishListRequestDto wishListRequestDto, Products product) {
-        product.updateStock(product.getStock() - wishListRequestDto.quantity());
+    public void updateStock(Integer quantity, Products product) {
+        product.updateStock(quantity);
         productsRepository.save(product);
     }
 }
