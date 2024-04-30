@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public enum OrderStatus {
+    ORDERED("주문 완료"),
     CONFIRMED("배송 중"),
     CANCELED("주문 취소"),
     DELIVERED("배송 완료"),
