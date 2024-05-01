@@ -1,1 +1,4 @@
 rootProject.name = 'pre_order'
+include('user_service')
+include('product_service')
+include('order_service')

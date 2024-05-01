@@ -1,0 +1,47 @@
+package com.pre_order.user_service.domain.users.controller;
+
+import com.pre_order.user_service.domain.users.dto.AuthCodeDto;
+import com.pre_order.user_service.domain.users.dto.PasswordRequestDto;
+import com.pre_order.user_service.domain.users.dto.UserInfoDto;
+import com.pre_order.user_service.domain.users.dto.UsersInfoRequestDto;
+import com.pre_order.user_service.domain.users.entity.Users;
+import com.pre_order.user_service.domain.users.service.AuthService;
+import com.pre_order.user_service.domain.users.service.UsersService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
+public class UsersController {
+
+    private final UsersService usersService;
+    private final AuthService authService;
+
+    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
+    // TODO 반환 타입 빼기 왜??코드를 보내지??????
+    public ResponseEntity<AuthCodeDto> signUp(@Valid @RequestBody UsersInfoRequestDto usersInfoRequestDto) {
+        final String email = usersInfoRequestDto.email();
+        // TODO 두 서비스 메서드 트랜잭션 하나로 묶어서 처리하기
+        usersService.signUp(usersInfoRequestDto);
+        final AuthCodeDto authCodeDto = authService.generateAuthCode(AuthService.PREFIX_VERIFIED, email);
+        authService.sendEmail(email, authCodeDto.authCode());
+        return ResponseEntity.status(HttpStatus.CREATED).body(authCodeDto);
+    }
+
+    @PatchMapping("/user-info")
+    public ResponseEntity<UserInfoDto> updateUserInfo(@Valid @RequestBody UserInfoDto userInfoDto, @AuthenticationPrincipal Users user) {
+        return ResponseEntity.ok(usersService.updateUserInfo(userInfoDto, user));
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody PasswordRequestDto password, @AuthenticationPrincipal Users user) {
+        usersService.updatePassword(password.password(), user);
+        return ResponseEntity.noContent().build();
+    }
+}
