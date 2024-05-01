@@ -23,6 +23,12 @@ public class WishList {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
 

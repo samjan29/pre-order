@@ -20,6 +20,9 @@ public class Orders {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     @Column(name = "total_price", nullable = false)
     private int totalPrice;
 
