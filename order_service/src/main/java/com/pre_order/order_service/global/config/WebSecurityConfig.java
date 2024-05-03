@@ -42,13 +42,6 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/api/users/signup").permitAll()
-                                .requestMatchers("/api/auth/email-verified").permitAll()
-                                .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/products/**").permitAll()
-                                .requestMatchers("/api/users/user-info").hasRole(UserRole.VERIFIED_USER.getAuthority())
-                                .requestMatchers("/api/users/password").hasRole(UserRole.VERIFIED_USER.getAuthority())
-                                .requestMatchers("/api/orders/**").hasRole(UserRole.VERIFIED_USER.getAuthority())
                                 .anyRequest().authenticated()
                 )
                 .cors(AbstractHttpConfigurer::disable)

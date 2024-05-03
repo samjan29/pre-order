@@ -7,6 +7,7 @@ import com.pre_order.user_service.domain.users.repository.UsersCustomRepository;
 import com.pre_order.user_service.domain.users.repository.UsersRepository;
 import com.pre_order.user_service.global.exception.CustomException;
 import com.pre_order.user_service.global.exception.ErrorCode;
+import com.pre_order.user_service.global.security.encrypt.AES256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class UsersService {
     private final UsersCustomRepository usersCustomRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final AES256Util aes256Util;
 
     public void signUp(UsersInfoRequestDto usersInfoRequestDto) {
         final String email = usersInfoRequestDto.email();
@@ -70,5 +72,9 @@ public class UsersService {
     public void updatePassword(String password, Users user) {
         // TODO 같은 비밀번호인 경우 예외 처리
         usersCustomRepository.updatePassword(user.getId(), passwordEncoder.encode(password));
+    }
+
+    public String getUserId(Long id) {
+        return aes256Util.encrypt(String.valueOf(id));
     }
 }
