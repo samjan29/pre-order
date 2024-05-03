@@ -30,7 +30,7 @@ public class WishList {
     private Long productId;
 
     @Column(name = "quantity", nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @CreationTimestamp
     @Column(name = "added_at", columnDefinition = "timestamp default current_timestamp")

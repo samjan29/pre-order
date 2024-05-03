@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,15 +24,15 @@ public class Orders {
     private Long userId;
 
     @Column(name = "total_price", nullable = false)
-    private int totalPrice;
+    private Integer totalPrice;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @CreationTimestamp
-    @Column(name = "order_date")
-    private Timestamp orderDate;
+    @Column(name = "order_date", columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;

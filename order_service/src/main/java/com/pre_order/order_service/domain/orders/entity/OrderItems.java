@@ -17,9 +17,9 @@ public class OrderItems {
     private Orders orders;
 
     @Column(name = "purchase_price", nullable = false)
-    private int purchasePrice;
+    private Integer purchasePrice;
 
     @Column(name = "quantity", nullable = false)
-    private int quantity;
+    private Integer quantity;
 
 }

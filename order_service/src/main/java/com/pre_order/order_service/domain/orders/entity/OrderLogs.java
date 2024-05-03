@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -25,7 +25,7 @@ public class OrderLogs {
     private OrderStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at")
-    private Timestamp createdAt;
+    @Column(name = "created_at", columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
 
 }
