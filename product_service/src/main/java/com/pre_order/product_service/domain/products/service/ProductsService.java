@@ -1,5 +1,6 @@
 package com.pre_order.product_service.domain.products.service;
 
+import com.pre_order.product_service.domain.products.dto.ProductInfoResponseDto;
 import com.pre_order.product_service.domain.products.dto.ProductResponseDto;
 import com.pre_order.product_service.domain.products.entity.Products;
 import com.pre_order.product_service.domain.products.repository.ProductsRepository;
@@ -33,14 +34,14 @@ public class ProductsService {
         return new ProductResponseDto(product);
     }
 
-    public Products checkProduct(Long productId) {
-        return productsRepository.findByIdAndIsShow(productId, true)
+    public ProductInfoResponseDto checkProduct(Long productId) {
+        Products products = productsRepository.findByIdAndIsShow(productId, true)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+        return new ProductInfoResponseDto(products.getStock(), products.getPrice());
     }
 
     @Transactional
-    public void updateStock(Integer quantity, Products product) {
-        product.updateStock(quantity);
-        productsRepository.save(product);
+    public void updateStock(Long productId, Integer quantity) {
+        productsRepository.updateStockById(productId, quantity);
     }
 }

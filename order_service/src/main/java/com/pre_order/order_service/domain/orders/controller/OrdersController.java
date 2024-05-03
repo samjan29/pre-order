@@ -19,11 +19,9 @@ public class OrdersController {
     @PostMapping("/{productId}")
     public ResponseEntity<Void> createOrder(
             @PathVariable(name = "productId") Long productId,
-            @Valid @RequestBody QuantityDto quantityDto
-            /*@AuthenticationPrincipal Users user*/) {
-        // Products product = productsService.checkProduct(productId);
-        // ordersService.createOrder(product, quantityDto, user);
-        // productsService.updateStock(quantityDto.quantity(), product);
+            @Valid @RequestBody QuantityDto quantityDto,
+            @AuthenticationPrincipal Long userId) {
+         ordersService.createOrder(productId, quantityDto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

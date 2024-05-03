@@ -23,7 +23,11 @@ public enum ErrorCode {
     EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED,"Expired Access Token"),
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "Expired Refresh Token"),
     FAILED_SEND_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR, "Failed Send Email"),
-    EXPIRED_AUTH_CODE(HttpStatus.BAD_REQUEST, "Expired Auth Code"),;
+    EXPIRED_AUTH_CODE(HttpStatus.BAD_REQUEST, "Expired Auth Code"),
+
+    // Orders
+    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, "Invalid Quantity"),
+    ;
 
     private final HttpStatus status;
     private final String message;
